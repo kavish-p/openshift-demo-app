@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app: words-db
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: db
+  selector:
+    app: words-db
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: words-db
+spec:
+  selector:
+    matchLabels:
+      app: words-db
+  template:
+    metadata:
+      labels:
+        app: words-db
+    spec:
+      containers:
+      - name: db
+        image: image-registry.openshift-image-registry.svc:5000/kavishm9-dev/kavish-db:latest
+        env:
+        - name: POSTGRES_DB
+          value: postgres
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: PGDATA
+          value: /temp/data
+        ports:
+        - containerPort: 5432
+          name: words-db

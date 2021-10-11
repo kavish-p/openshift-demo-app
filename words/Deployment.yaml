@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+  labels:
+    app: words-app
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: app
+  selector:
+    app: words-app
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: words-app
+spec:
+  selector:
+    matchLabels:
+      app: words-app
+  template:
+    metadata:
+      labels:
+        app: words-app
+    spec:
+      containers:
+      - name: app
+        image: image-registry.openshift-image-registry.svc:5000/kavishm9-dev/kavish-app:latest
+        ports:
+        - containerPort: 8080
+          name: words-app

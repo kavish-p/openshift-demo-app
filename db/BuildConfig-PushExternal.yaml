@@ -13,6 +13,6 @@ spec:
   output: 
     to:
       kind: DockerImage
-      name: 10.168.0.62:8082/docker-kavish/iris-db:${version}
+      name: 10.168.0.62:8082/docker-kavish/iris-db:${VERSION}
     pushSecret:
       name: artifactory-secret
